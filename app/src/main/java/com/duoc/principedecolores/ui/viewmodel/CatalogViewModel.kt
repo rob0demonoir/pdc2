@@ -101,7 +101,6 @@ class CatalogViewModel(
     private val _uiState = MutableStateFlow(CatalogUiState())
     val uiState: StateFlow<CatalogUiState> = _uiState.asStateFlow()
 
-    // Estado para controlar la redirección al Login si no está autenticado
     private val _navigateToLogin = MutableStateFlow(false)
     val navigateToLogin: StateFlow<Boolean> = _navigateToLogin.asStateFlow()
 
@@ -111,7 +110,6 @@ class CatalogViewModel(
     private val _toastMessage = Channel<String>()
     val toastMessage = _toastMessage.receiveAsFlow()
 
-    // El repositorio ya se encarga de pedir el conteo basado en la sesión actual
     val contarJabonesCarrito = carritoRepository.contarJabonesCarrito
 
     init {
@@ -132,17 +130,14 @@ class CatalogViewModel(
 
     fun actualizaCuentaCarrito() {
         viewModelScope.launch {
-            // El repositorio ya sabe si hay usuario o no.
-            // Si SessionManager.isLoggedIn() es false, devolverá 0.
+
+
             carritoRepository.contarJabonesCarrito.collect { count ->
                 _cuentaCarrito.value = count
             }
         }
     }
 
-
-
-    // Reseteamos el evento de navegación una vez que la UI lo ha consumido
     fun resetNavigation() {
         _navigateToLogin.value = false
     }
@@ -162,13 +157,12 @@ class CatalogViewModel(
     }
 
     fun anadir(product: Product) {
-        // 1. VALIDACIÓN DE SESIÓN
+
         if (!SessionManager.isLoggedIn()) {
             _navigateToLogin.value = true // Avisamos a la UI que vaya al login
             return
         }
 
-        // 2. Si está logueado, procedemos
         viewModelScope.launch {
             carritoRepository.anadirAlCarrito(
                 ItemCarrito(
@@ -177,6 +171,7 @@ class CatalogViewModel(
                     nombreProducto = product.name,
                     precioProducto = product.price,
                     uriImagenProducto = product.imageUri,
+                    stock = product.stock,
                     cantidad = 1
 
                 )

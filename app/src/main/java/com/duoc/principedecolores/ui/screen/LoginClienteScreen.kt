@@ -29,7 +29,6 @@ fun LoginClienteScreen(
     val uiState by viewModel.uiState.collectAsState()
     var passwordVisible by remember { mutableStateOf(false) }
 
-    // Si el login es exitoso, disparamos la navegación hacia atrás o al catálogo
     LaunchedEffect(uiState.loginSuccess) {
         if (uiState.loginSuccess) {
             onLoginSuccess()
@@ -56,7 +55,7 @@ fun LoginClienteScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            // Un icono o logo simple
+
             Text("🛁", style = MaterialTheme.typography.displayLarge)
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -70,7 +69,6 @@ fun LoginClienteScreen(
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // Campo Email
             OutlinedTextField(
                 value = uiState.email,
                 onValueChange = { viewModel.onEmailChange(it) },
@@ -82,7 +80,6 @@ fun LoginClienteScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Campo Password
             OutlinedTextField(
                 value = uiState.password,
                 onValueChange = { viewModel.onPasswordChange(it) },
@@ -101,7 +98,6 @@ fun LoginClienteScreen(
                 }
             )
 
-            // Mensaje de Error
             if (uiState.errorMessage != null) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
@@ -113,7 +109,6 @@ fun LoginClienteScreen(
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // Botón Ingresar
             Button(
                 onClick = { viewModel.login() },
                 modifier = Modifier
@@ -134,7 +129,6 @@ fun LoginClienteScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Opción para ir a Registro
             TextButton(onClick = onNavigateToRegister) {
                 Text("¿Aún no tienes cuenta? Regístrate aquí")
             }

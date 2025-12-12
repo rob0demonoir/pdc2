@@ -127,7 +127,6 @@ class MainActivity : ComponentActivity() {
                     factory = LoginClienteViewModelFactory()
                 )
 
-                // 2. Pasar los ViewModels a la navegación
                 Navigation(
                     navController = navController,
                     catalogViewModel = catalogViewModel,

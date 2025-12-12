@@ -67,7 +67,6 @@ fun RegisterScreen(
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // --- CAMPO NOMBRE ---
             OutlinedTextField(
                 value = uiState.nombre,
                 onValueChange = viewModel::onNombreChange,
@@ -84,7 +83,6 @@ fun RegisterScreen(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // --- CAMPO EMAIL ---
             OutlinedTextField(
                 value = uiState.email,
                 onValueChange = viewModel::onEmailChange,
@@ -102,7 +100,6 @@ fun RegisterScreen(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // --- CAMPO PASSWORD ---
             OutlinedTextField(
                 value = uiState.password,
                 onValueChange = viewModel::onPasswordChange,
@@ -127,7 +124,6 @@ fun RegisterScreen(
                 }
             )
 
-            // --- ERROR GENERAL (DE API) ---
             if (uiState.generalError != null) {
                 Spacer(modifier = Modifier.height(16.dp))
                 Card(

@@ -6,7 +6,7 @@ data class Product(
     val description: String,
     val price: Int,
     val stock: Int,
-    val imageUri: String? = null, // URI de la imagen guardada
+    val imageUri: String? = null,
     val createdAt: Long = System.currentTimeMillis()
 ) {
     val isOutOfStock: Boolean

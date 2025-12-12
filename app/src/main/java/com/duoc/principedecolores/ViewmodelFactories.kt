@@ -73,12 +73,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.duoc.principedecolores.data.repository.*
 import com.duoc.principedecolores.ui.viewmodel.*
 
-// Factory genérica actualizada (o individuales si prefieres)
 
 class CatalogViewModelFactory : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        // Instanciamos los repositorios vacíos (Usan Retrofit internamente)
+
         return CatalogViewModel(ProductRepository(), CarritoRepository()) as T
     }
 }
@@ -118,7 +117,7 @@ class RegisterViewModelFactory : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(RegisterViewModel::class.java)) {
-            // Instanciamos el ViewModel inyectándole el ClientRepository
+
             return RegisterViewModel(ClienteRepository()) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")

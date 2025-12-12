@@ -43,7 +43,6 @@ import kotlinx.coroutines.flow.flow
 
 class ProductRepository { // Ya no recibe ProductDao
 
-    // Creamos un Flow que llama a la API cada vez que se observa
     val allProducts: Flow<List<Product>> = flow {
         try {
             val response = RetrofitClient.apiService.getProducts()
@@ -59,12 +58,8 @@ class ProductRepository { // Ya no recibe ProductDao
         }
     }
 
-    // Devolvemos lista vacía o filtramos en memoria si la API tuviera endpoint de "disponibles"
     val availableProducts: Flow<List<Product>> = allProducts
-
     suspend fun getProductById(id: Int): Product? {
-        // En una app real, llamaríamos a api.getProductById(id)
-        // Por ahora retornamos null o implementa el endpoint si lo necesitas
         return null
     }
 

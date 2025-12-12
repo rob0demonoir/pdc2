@@ -198,7 +198,6 @@ fun TarjetaItemCarrito(
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
 
-                // --- INICIO DE LA SECCIÓN CORREGIDA ---
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -232,7 +231,7 @@ fun TarjetaItemCarrito(
                         fontWeight = FontWeight.Bold
                     )
                 }
-                // --- FIN DE LA SECCIÓN CORREGIDA ---
+
             }
 
             IconButton(onClick = borrando) {
@@ -246,7 +245,6 @@ fun TarjetaItemCarrito(
     }
 }
 
-// El Composable CarritoBottomBar no necesita cambios, está perfecto.
 @SuppressLint("DefaultLocale")
 @Composable
 fun CarritoBottomBar(
@@ -337,12 +335,10 @@ fun CarritoScreen(
 ){
     val estadoIu by viewmodel.estadoIu.collectAsState()
 
-    // Calculamos el total (O usamos el del backend si lo implementaste en el ViewModel)
-    // Cambié 'itemCarritoItems' por 'items' para que sea más limpio
+
     val total = remember(estadoIu.items) { viewmodel.calcularTotal() }
 
-    // --- RECARGA AUTOMÁTICA ---
-    // Esto asegura que al entrar veas el carrito actualizado
+
     LaunchedEffect(Unit) {
         viewmodel.cargaCarrito()
     }
@@ -362,7 +358,7 @@ fun CarritoScreen(
             )
         },
         bottomBar = {
-            // Error 2: Cambiado 'itemCarritoItems' por 'items'
+
             if(estadoIu.items.isNotEmpty()){
                 CarritoBottomBar(
                     total = total,
@@ -381,7 +377,7 @@ fun CarritoScreen(
             ){
                 CircularProgressIndicator()
             }
-            // Error 2: Cambiado 'itemCarritoItems' por 'items'
+
         } else if (estadoIu.items.isEmpty()) {
             Box(
                 modifier = Modifier
@@ -411,7 +407,7 @@ fun CarritoScreen(
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ){
-                // Error 2: Cambiado 'itemCarritoItems' por 'items'
+
                 items(estadoIu.items) { itemCarrito ->
                     TarjetaItemCarrito(
                         itemCarrito = itemCarrito,
@@ -450,7 +446,6 @@ fun CarritoScreen(
     }
 }
 
-// ... (El resto de tus composables TarjetaItemCarrito y CarritoBottomBar están bien) ...
 @SuppressLint("DefaultLocale")
 @Composable
 fun TarjetaItemCarrito(

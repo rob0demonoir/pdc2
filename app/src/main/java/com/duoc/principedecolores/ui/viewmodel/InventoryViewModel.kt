@@ -99,7 +99,7 @@ class InventoryViewModel(
 
             val editingProduct = _uiState.value.editingProduct
             if (editingProduct != null) {
-                // Actualizar producto existente
+
                 productRepository.updateProduct(
                     editingProduct.copy(
                         name = form.name,
@@ -110,7 +110,7 @@ class InventoryViewModel(
                     )
                 )
             } else {
-                // Crear nuevo producto
+
                 productRepository.insertProduct(
                     Product(
                         name = form.name,

@@ -21,12 +21,12 @@ return carritoDao.obtenerJabonesPorId(productId)
 suspend fun anadirAlCarrito(carrito: Carrito) {
 val jabonExistente = carritoDao.obtenerJabonesPorId(carrito.idProducto)
 if (jabonExistente != null) {
-// Si ya existe, incrementar cantidad
+
 carritoDao.actualizarJabonCarrito(
 jabonExistente.copy(cantidad = jabonExistente.cantidad + carrito.cantidad)
 )
 } else {
-// Si no existe, agregar nuevo
+
 carritoDao.insertJabon(carrito)
 }
 }
@@ -60,21 +60,19 @@ class CarritoRepository {
 
     val obtenerCarrito: Flow<List<ItemCarrito>> = flow {
         try {
-            // VERIFICAR SESIÓN
+
             if (!SessionManager.isLoggedIn()) {
                 emit(emptyList()) // Si no está logueado, carrito vacío
                 return@flow
             }
             val userId = SessionManager.getClientId()
 
-            // ENVIAR ID AL SERVIDOR
             val response = RetrofitClient.apiService.getCarrito(userId)
 
             if (response.isSuccessful && response.body() != null) {
                 val carritoBackend = response.body()!!
                 val itemsBackend = carritoBackend.items
 
-                // Mapeo
                 val listaMapeada = itemsBackend.map { item ->
                     ItemCarrito(
                         id = item.id,
@@ -83,6 +81,7 @@ class CarritoRepository {
                         precioProducto = item.producto.price,
                         uriImagenProducto = item.producto.imageUri,
                         cantidad = item.cantidad,
+                        stock = item.producto.stock,
                         anadido = item.anadido
                     )
                 }
@@ -95,7 +94,6 @@ class CarritoRepository {
         }
     }
 
-    // Contar también necesita ID
     val contarJabonesCarrito: Flow<Int> = flow {
         try {
             if (!SessionManager.isLoggedIn()) {

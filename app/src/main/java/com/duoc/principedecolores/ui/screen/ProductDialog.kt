@@ -84,7 +84,6 @@ fun ProductDialog(
                     style = MaterialTheme.typography.headlineSmall
                 )
 
-                // Imagen
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()

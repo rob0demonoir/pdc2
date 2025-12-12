@@ -290,13 +290,10 @@ fun CatalogScreen(
     val uiState by viewModel.uiState.collectAsState()
     val cartCount by viewModel.contarJabonesCarrito.collectAsState(initial = 0)
 
-
-    // Escuchamos si el ViewModel pide ir al login (porque intentó comprar sin sesión)
     val navigateToLogin by viewModel.navigateToLogin.collectAsState()
     val context = LocalContext.current
     var showLogoutDialog by remember { mutableStateOf(false) } // Estado del dialogo de logout
 
-    // EFECTO DE NAVEGACIÓN AUTOMÁTICA
     LaunchedEffect(navigateToLogin) {
         if (navigateToLogin) {
             onNavigateToLogin() // Redirige al Login de Cliente
@@ -316,7 +313,7 @@ fun CatalogScreen(
             title = { Text("Mi Cuenta") },
             text = {
                 Column {
-                    // Mostramos el nombre si está disponible, si no "Usuario"
+
                     val nombreUsuario = SessionManager.currentClient.collectAsState().value?.nombre ?: "Usuario"
                     Text("Hola, $nombreUsuario")
                     Spacer(modifier = Modifier.height(8.dp))
@@ -348,7 +345,7 @@ fun CatalogScreen(
             TopAppBar(
                 title = { Text("Catálogo de Jabones") },
                 actions = {
-                    // Botón Carrito con Badge
+
                     BadgedBox(
                         badge = {
                             if (cartCount > 0) {
@@ -366,7 +363,6 @@ fun CatalogScreen(
                         }
                     }
 
-                    // Botón Login (Cliente)
                     IconButton(onClick = onNavigateToLogin) {
                         Icon(
                             Icons.Default.Person, // Icono de usuario
@@ -560,7 +556,7 @@ fun ProductCard(
 package com.duoc.principedecolores.ui.screen
 
 import android.content.Intent
-import android.widget.Toast // <--- IMPORTANTE: Para mostrar el mensaje
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -571,19 +567,21 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PersonAdd
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext // <--- IMPORTANTE: Necesitamos el contexto
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.duoc.principedecolores.data.model.Product
 import com.duoc.principedecolores.ui.viewmodel.CatalogViewModel
-import com.duoc.principedecolores.utils.SessionManager // Para el botón de perfil
+import com.duoc.principedecolores.utils.SessionManager
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -591,17 +589,16 @@ fun CatalogScreen(
     viewModel: CatalogViewModel,
     onNavigateToLogin: () -> Unit,
     onNavigateToCart: () -> Unit,
-    onNavigateToRegister: () -> Unit
+    onNavigateToRegister: () -> Unit,
+    onNavigateToHoroscopo: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val cartCount by viewModel.contarJabonesCarrito.collectAsState(initial = 0)
     val navigateToLogin by viewModel.navigateToLogin.collectAsState()
 
-    // --- VARIABLES NECESARIAS PARA TOAST Y LOGOUT ---
     val context = LocalContext.current // Obtenemos el contexto de Android
     var showLogoutDialog by remember { mutableStateOf(false) } // Estado del dialogo de logout
 
-    // 1. EFECTO DE NAVEGACIÓN (LOGIN)
     LaunchedEffect(navigateToLogin) {
         if (navigateToLogin) {
             onNavigateToLogin()
@@ -609,21 +606,19 @@ fun CatalogScreen(
         }
     }
 
-    // 2. EFECTO DE TOAST (MENSAJES) - ¡ESTO FALTABA!
     LaunchedEffect(Unit) {
         viewModel.toastMessage.collect { mensaje ->
             Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show()
         }
     }
 
-    // DIALOGO DE CERRAR SESIÓN
     if (showLogoutDialog) {
         AlertDialog(
             onDismissRequest = { showLogoutDialog = false },
             title = { Text("Mi Cuenta") },
             text = {
                 Column {
-                    // Mostramos el nombre si está disponible, si no "Usuario"
+
                     val nombreUsuario = SessionManager.currentClient.collectAsState().value?.nombre ?: "Usuario"
                     Text("Hola, $nombreUsuario")
                     Spacer(modifier = Modifier.height(8.dp))
@@ -668,7 +663,14 @@ fun CatalogScreen(
                         }
                     }
 
-                    // BOTÓN PERFIL / LOGOUT
+                    IconButton(onClick = onNavigateToHoroscopo) {
+                        Icon(
+                            imageVector = Icons.Default.Star, // Necesitas importarlo
+                            contentDescription = "Horóscopo",
+                            tint = Color(0xFFFFD700) // Dorado
+                        )
+                    }
+
                     IconButton(onClick = {
                         if (SessionManager.isLoggedIn()) {
                             showLogoutDialog = true
@@ -737,7 +739,6 @@ fun CatalogScreen(
     }
 }
 
-// ProductCard se mantiene igual, no necesita cambios
 @Composable
 fun ProductCard(
     product: Product,

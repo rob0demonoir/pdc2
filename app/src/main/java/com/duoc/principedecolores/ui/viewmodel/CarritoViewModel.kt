@@ -102,7 +102,7 @@ class CarritoViewModel(
     fun cargaCarrito() {
         viewModelScope.launch {
             _estadoIu.value = _estadoIu.value.copy(carga = true)
-            // Recolectamos el Flow del repositorio
+
             repository.obtenerCarrito.collect { itemsRecibidos ->
                 _estadoIu.value = _estadoIu.value.copy(
                     items = itemsRecibidos,
@@ -119,18 +119,16 @@ class CarritoViewModel(
         }
 
         viewModelScope.launch {
-            // Lógica Matemática:
-            // El backend SUMA lo que enviamos.
-            // Si tengo 1 y quiero 2 (nuevaCantidad), envío 1 (2 - 1 = 1).
-            // Si tengo 5 y quiero 4 (nuevaCantidad), envío -1 (4 - 5 = -1).
+
+
+
+
             val diferencia = nuevaCantidad - item.cantidad
 
-            // Reutilizamos 'anadirAlCarrito' enviando la diferencia
             repository.anadirAlCarrito(
                 item.copy(cantidad = diferencia)
             )
 
-            // Forzamos recarga para ver el total actualizado
             cargaCarrito()
         }
     }
@@ -154,7 +152,7 @@ class CarritoViewModel(
                 )
             } else {
                 _estadoIu.value = _estadoIu.value.copy(carga = false)
-                // Aquí podrías manejar error de pago
+
             }
         }
     }

@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-// Definimos el estado de la UI para esta pantalla
 data class LoginClientUiState(
     val email: String = "",
     val password: String = "",
@@ -36,7 +35,6 @@ class LoginClienteViewModel(private val clienteRepository: ClienteRepository) : 
     fun login() {
         val state = _uiState.value
 
-        // Validación simple de campos vacíos
         if (state.email.isBlank() || state.password.isBlank()) {
             _uiState.value = state.copy(errorMessage = "Ingresa tu correo y contraseña")
             return
@@ -45,13 +43,12 @@ class LoginClienteViewModel(private val clienteRepository: ClienteRepository) : 
         viewModelScope.launch {
             _uiState.value = state.copy(isLoading = true, errorMessage = null)
 
-            // Llamamos al repositorio
             val result = clienteRepository.loginCliente(state.email, state.password)
 
             result.onSuccess { cliente ->
-                // --- IMPORTANTE: GUARDAR SESIÓN GLOBAL ---
+
                 SessionManager.login(cliente)
-                // -----------------------------------------
+
 
                 _uiState.value = state.copy(
                     isLoading = false,

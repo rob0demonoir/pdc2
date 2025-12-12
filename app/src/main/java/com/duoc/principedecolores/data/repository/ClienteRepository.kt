@@ -18,7 +18,7 @@ class ClienteRepository {
             if (response.isSuccessful) {
                 Result.success("Registro exitoso")
             } else {
-                // Leemos el error del cuerpo si existe (ej: "Email ya registrado")
+
                 val errorMsg = response.errorBody()?.string() ?: "Error en el registro"
                 Result.failure(Exception(errorMsg))
             }
@@ -34,11 +34,10 @@ class ClienteRepository {
             val response = RetrofitClient.apiService.loginCliente(request)
 
             if (response.isSuccessful && response.body() != null) {
-                // El backend nos devuelve un objeto LoginClienteResponse
-                // que contiene dentro el objeto 'cliente'.
+
+
                 val loginResponse = response.body()!!
 
-                // Extraemos el cliente y lo devolvemos
                 Result.success(loginResponse.cliente)
             } else {
                 val errorMsg = response.errorBody()?.string() ?: "Credenciales inválidas"

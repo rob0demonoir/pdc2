@@ -8,12 +8,10 @@ import retrofit2.http.*
 
 interface SoapApiService {
 
-    // --- AUTH ---
     @POST("api/auth/login")
     suspend fun login(@Body request: LoginRequest): Response<ResponseBody>
-    // Usamos ResponseBody porque tu backend devuelve un String plano, no un JSON.
 
-    // --- PRODUCTOS ---
+
     @GET("api/products")
     suspend fun getProducts(): Response<List<Product>>
 
@@ -26,7 +24,6 @@ interface SoapApiService {
     @DELETE("api/products/{id}")
     suspend fun deleteProduct(@Path("id") id: Int): Response<Void>
 
-    // --- CARRITO ---
     @GET("api/carrito")
     suspend fun getCarrito(): Response<List<CarritoResponse>> // Ojo: devuelve CarritoResponse
 
@@ -42,15 +39,13 @@ interface SoapApiService {
     @POST("api/clientes/registro")
     suspend fun registrarCliente(@Body request: RegistroClienteRequest): Response<ResponseBody>
 
-    // 1. GET: Pide ID por Query Param (?clienteId=1)
     @GET("api/carrito")
     suspend fun getCarrito(@Query("clienteId") clienteId: Int): Response<CarritoCompletoResponse>
 
-    // 2. POST: El body ya incluye el ID dentro de AnadirAlCarritoRequest
+
     @POST("api/carrito/agregar")
     suspend fun addToCart(@Body request: AnadirAlCarritoRequest): Response<ResponseBody>
 
-    // 3. PAGAR: Pide ID por Query Param
     @POST("api/carrito/pagar")
     suspend fun procesarPago(@Query("clienteId") clienteId: Int): Response<ResponseBody>
 

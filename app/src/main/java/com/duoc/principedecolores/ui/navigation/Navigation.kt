@@ -4,16 +4,18 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.duoc.principedecolores.ui.screen.* // Importa todas las pantallas
-import com.duoc.principedecolores.ui.viewmodel.* // Importa todos los ViewModels
+import com.duoc.principedecolores.ui.screen.*
+import com.duoc.principedecolores.ui.viewmodel.*
 
 sealed class Screen(val route: String) {
     object Catalog : Screen("catalog")
-    object Login : Screen("login") // Login Admin
+    object Login : Screen("login")
     object Inventory : Screen("inventory")
     object Carrito : Screen("carrito")
     object Register : Screen("register")
-    object LoginCliente : Screen("login_cliente") // <--- 1. FALTABA ESTO
+    object LoginCliente : Screen("login_cliente")
+
+    object Horoscopo : Screen("horoscopo")
 }
 
 @Composable
@@ -30,11 +32,11 @@ fun Navigation(
         navController = navController,
         startDestination = Screen.Catalog.route
     ) {
-        // --- PANTALLA CATÁLOGO ---
+
         composable(Screen.Catalog.route) {
             CatalogScreen(
                 viewModel = catalogViewModel,
-                // CAMBIO IMPORTANTE: El botón de login/comprar debe llevar al Cliente, no al Admin
+
                 onNavigateToLogin = {
                     navController.navigate(Screen.LoginCliente.route)
                 },
@@ -43,11 +45,19 @@ fun Navigation(
                 },
                 onNavigateToRegister = {
                     navController.navigate(Screen.Register.route)
+                },
+                onNavigateToHoroscopo = {
+                    navController.navigate(Screen.Horoscopo.route)
                 }
             )
         }
 
-        // --- PANTALLA LOGIN ADMIN ---
+        composable(Screen.Horoscopo.route) {
+            HoroscopeScreen(
+                onNavigateBack = { navController.popBackStack() }
+            )
+        }
+
         composable(Screen.Login.route) {
             LoginScreen(
                 viewModel = loginViewModel,
@@ -62,14 +72,13 @@ fun Navigation(
             )
         }
 
-        // --- PANTALLA LOGIN CLIENTE ---
         composable(Screen.LoginCliente.route) {
             LoginClienteScreen(
                 viewModel = loginClienteViewModel,
                 onNavigateBack = { navController.popBackStack() },
                 onNavigateToRegister = { navController.navigate(Screen.Register.route) },
                 onLoginSuccess = {
-                    // Al loguearse, volvemos al catálogo para que pueda seguir comprando
+
                     navController.popBackStack()},
                 onNavigateToAdmin = {
                     navController.navigate(Screen.Login.route)
@@ -77,7 +86,6 @@ fun Navigation(
             )
         }
 
-        // --- PANTALLA REGISTRO (FALTABA ESTE BLOQUE) ---
         composable(Screen.Register.route) { // <--- 2. FALTABA ESTO
             RegisterScreen(
                 viewModel = registerViewModel,
@@ -85,7 +93,6 @@ fun Navigation(
             )
         }
 
-        // --- PANTALLA INVENTARIO (ADMIN) ---
         composable(Screen.Inventory.route) {
             InventoryScreen(
                 viewModel = inventoryViewModel,
@@ -97,7 +104,6 @@ fun Navigation(
             )
         }
 
-        // --- PANTALLA CARRITO ---
         composable(Screen.Carrito.route) {
             CarritoScreen(
                 viewmodel = carritoViewModel,

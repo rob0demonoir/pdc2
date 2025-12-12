@@ -7,6 +7,7 @@ data class ItemCarrito(
     val precioProducto: Int,
     val uriImagenProducto: String?,
     val cantidad: Int,
+    val stock: Int,
     val anadido: Long = System.currentTimeMillis()
 ){
     val subtotal: Int

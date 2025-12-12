@@ -1,10 +1,10 @@
 package com.duoc.principedecolores.ui.screen
 
-import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
+//import android.net.Uri
+//import androidx.activity.compose.rememberLauncherForActivityResult
+//import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+//import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -21,11 +21,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
+//import androidx.compose.ui.window.Dialog
 import coil.compose.AsyncImage
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.isGranted
-import com.google.accompanist.permissions.rememberPermissionState
+//import com.google.accompanist.permissions.ExperimentalPermissionsApi
+//import com.google.accompanist.permissions.isGranted
+//import com.google.accompanist.permissions.rememberPermissionState
 import com.duoc.principedecolores.data.model.Product
 import com.duoc.principedecolores.ui.viewmodel.InventoryViewModel
 

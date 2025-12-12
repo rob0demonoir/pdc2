@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 object SessionManager {
-    // Guardamos el usuario aquí
+
     private val _currentClient = MutableStateFlow<Cliente?>(null)
     val currentClient = _currentClient.asStateFlow()
 
@@ -17,12 +17,10 @@ object SessionManager {
         _currentClient.value = null
     }
 
-    // Helper para saber si hay alguien logueado rápido
     fun isLoggedIn(): Boolean {
         return _currentClient.value != null
     }
 
-    // Helper para obtener el ID (o lanzar error si no hay nadie)
     fun getClientId(): Int {
         return _currentClient.value?.id ?: throw Exception("Usuario no logueado")
     }
